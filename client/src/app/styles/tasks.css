@@ -18,7 +18,7 @@ body {
     flex-direction: column;
     align-items: center;
 }
-.login-container {
+.tasks-container {
     background-color: #171f2b;
     border-radius: 8px;
     width: 100%;
@@ -32,7 +32,7 @@ body {
     color: #ff9800; 
     text-align: center;
     margin: 0 0 1.5rem 0;
-    font-size: 4rem;
+    font-size: 3rem;
     letter-spacing: 0.3vw;
 }
 .form-group {
@@ -73,27 +73,4 @@ body {
 }
 .submit-button:hover {
     background-color: #e68a00;
-}
-.register-container {
-    background-color: #171f2b;
-    padding: 1rem;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 25vw;
-    height: fit-content;
-    margin-top: 12vh;
-    opacity: 0.8;
-}
-.redirect-link {
-    margin-top: 1rem;
-    color: white;
-    font-size: 2rem;
-}
-.redirect-link a {
-    color: #ff9800;
-    text-decoration: none;
-    font-weight: bold;
-}
-.redirect-link a:hover {
-    text-decoration: underline;
 }

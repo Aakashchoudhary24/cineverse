@@ -71,15 +71,11 @@
     color: #bbb; 
 }
 .search-button {
-    background-color: transparent;
+    background-color: #ff9800;
     border: none;
     border-radius: 4px;
     padding: 8px 8px;
     cursor: pointer;
     color: black;
     font-weight: bold;
-    transition: background-color 0.3s;
-}
-.search-button:hover {
-    background-color: #e68a00; 
 }

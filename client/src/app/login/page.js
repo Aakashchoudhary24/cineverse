@@ -1,14 +1,15 @@
-// LoginPage.js
 'use client';
 
-import '../styles/login-register.css';
+import '../styles/forms.css';
 import Navbar from '../components/navbar';
-import { redirect } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function LoginPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [error, setError] = useState(''); 
+    const [error, setError] = useState('');
+    const searchParams = useSearchParams();
+    const router = useRouter();
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
@@ -18,19 +19,18 @@ export default function LoginPage() {
     }, []);
 
     if (isAuthenticated) {
-        window.alert('Please Logout before logging in as a different user');
-        redirect('/');
+        alert('You are already logged in, please logout to log in as a different user');
+        window.location.href='/';
         return null;
     }
 
     const handleLoginSubmit = async (event) => {
         event.preventDefault();
-        setError(''); 
+        setError('');
 
         const formData = new FormData(event.target);
-        let username = formData.get('username');
+        const username = formData.get('username').toLowerCase();
         const password = formData.get('password');
-        username = username.toLowerCase();
 
         try {
             const response = await fetch('http://localhost:5000/api/login', {
@@ -45,13 +45,14 @@ export default function LoginPage() {
 
             if (response.ok) {
                 localStorage.setItem('accessToken', data.access_token);
-                alert('Login successful! Redirecting to Home');
-                window.location.href = '/';
+                alert('Login successful! Redirecting...');
+                const redirectUrl = searchParams.get('redirect') || '/';
+                router.push(redirectUrl);
             } else {
                 setError(data.error || 'Invalid username or password');
             }
         } catch (err) {
-            console.log(err);
+            console.error('Login error:', err);
             setError('An error occurred. Please try again.');
         }
     };
@@ -59,7 +60,7 @@ export default function LoginPage() {
     return (
         <div className="main">
             <Navbar />
-            <div className="login-container">
+            <div className="form-container">
                 <form onSubmit={handleLoginSubmit} method="POST" className="login-form">
                     <h1 className="form-title">Login</h1>
 

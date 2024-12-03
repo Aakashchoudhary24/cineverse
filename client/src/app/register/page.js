@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import '../styles/login-register.css'
+import '../styles/forms.css'
 import Navbar from '../components/navbar';
 import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
@@ -76,7 +76,7 @@ export default function RegisterPage() {
     return (
         <div className="main">
             <Navbar />
-            <div className="register-container">
+            <div className="form-container">
                 <form onSubmit={handleSubmit} className="register-form">
                     <h1 className="form-title">Register</h1>
                     {errorMessage && <p className="error-message" style={{color:'red'}}>{errorMessage}</p>}
