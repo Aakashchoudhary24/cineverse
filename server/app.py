@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import psycopg2
+from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token
 from credentials import DB_PASSWORD, DB_NAME, DB_USERNAME, SECRET_KEY
@@ -17,6 +18,7 @@ app.config['JWT_SECRET_KEY'] = SECRET_KEY
 
 # Initialize JWT manager
 jwt = JWTManager(app)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 def connect_db():
     try:

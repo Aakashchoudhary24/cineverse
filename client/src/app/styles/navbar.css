@@ -7,7 +7,7 @@
     color: beige;
     overflow: hidden;
     background: transparent;
-    padding: 0 0 0 1rem ;
+    
 }
 .navbar {
     position: fixed;
@@ -25,7 +25,7 @@
     display: flex;
     list-style-type: none;
     font-size: 2rem;
-    gap: 1.5rem;
+    gap: 0.8rem;
 }
 .links ul li a {
     text-decoration: none;
@@ -37,10 +37,20 @@
 }
 .create-button {
     width: max-content;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
+    margin:-2px 0 0  1vw;
     padding: 0 5px;
-    margin: 1vw;
     background-color: rgb(50, 199, 50);
+    color: beige;
+    border: none;
+    border-radius: 5px;
+}
+.logout-button {
+    width: max-content;
+    font-size: 1.5rem;
+    padding: 0 5px;
+    margin: -2px 1vw 0 1vw;
+    background-color: rgb(255, 77, 53);
     color: beige;
     border: none;
     border-radius: 5px;

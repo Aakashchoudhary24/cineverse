@@ -4,8 +4,23 @@
 import React, { useState } from 'react';
 import '../styles/login-register.css'
 import Navbar from '../components/navbar';
+import { redirect } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function RegisterPage() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    useEffect(() => {
+        const token = localStorage.getItem('accessToken');
+        if (token) {
+            setIsAuthenticated(true);
+        }
+    }, []);
+    if (isAuthenticated) {
+        window.alert('Please logout before registering as a different user');
+        redirect('/');
+        return null;
+    }
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -64,7 +79,7 @@ export default function RegisterPage() {
             <div className="register-container">
                 <form onSubmit={handleSubmit} className="register-form">
                     <h1 className="form-title">Register</h1>
-                    {errorMessage && <p className="error-message">{errorMessage}</p>}
+                    {errorMessage && <p className="error-message" style={{color:'red'}}>{errorMessage}</p>}
                     {success && <p className="success-message">{success}</p>}
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>

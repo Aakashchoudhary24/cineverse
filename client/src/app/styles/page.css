@@ -3,6 +3,7 @@ body {
     flex-direction: column;
     align-items: center;
     background: linear-gradient(#b94848, #852525, black);
+    margin: 0;
     padding: 0;
     height: 100vh;
     overflow: scroll;

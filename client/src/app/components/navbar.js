@@ -1,7 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import '../styles/navbar.css';
 
 export default function Navbar() {
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    window.location.href='/login';
+};
 
   return (
     <nav className='navbar'>
@@ -36,6 +44,10 @@ export default function Navbar() {
 
         <div className='create'>
           <button className='create-button'>+ CREATE</button>
+        </div>
+
+        <div className='logout'>
+          <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
 
         <div className='search-bar'>
