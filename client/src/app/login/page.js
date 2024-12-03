@@ -1,4 +1,3 @@
-// LoginPage.js
 'use client';
 
 import '../styles/login-register.css';
@@ -7,14 +6,19 @@ import { redirect } from 'next/navigation';
 import { useState, useEffect } from 'react';
 
 export default function LoginPage() {
-    const [error, setError] = useState('');
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('accessToken');
         if (token) {
-            redirect('/');
+            setIsAuthenticated(true); // User is authenticated
         }
     }, []);
+
+    if (isAuthenticated) {
+        redirect('/');
+        return null;
+    }
 
     const handleLoginSubmit = async (event) => {
         event.preventDefault();
@@ -43,7 +47,6 @@ export default function LoginPage() {
             } else {
                 setError(data.error || 'Invalid username or password');
             }
-            
         } catch (err) {
             console.log(err);
         }
@@ -55,17 +58,19 @@ export default function LoginPage() {
             <div className="login-container">
                 <form onSubmit={handleLoginSubmit} method="POST" className="login-form">
                     <h1 className="form-title">Login</h1>
-                    <div className="form-group">
-                        <label htmlFor="username">Username:</label>
+
+                    <div className='form-group'>
+                    <label htmlFor="username">Username:</label>
                         <input
                             type="text"
                             id="username"
                             name="username"
                             placeholder="Enter your username"
-                            required
-                        />
+                            required/>
+                    </div>
 
-                        <label htmlFor="password">Password:</label>
+                    <div className='form-group'>
+                    <label htmlFor="password">Password:</label>
                         <input
                             type="password"
                             id="password"
@@ -74,18 +79,13 @@ export default function LoginPage() {
                             required
                         />
                     </div>
-                    {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
                     <div className="form-actions">
-                        <button
-                            type="submit"
-                            className="submit-button"
-                        >
-                            Login
-                        </button>
-                        <p className="register-link">
+                        <button type="submit" className="submit-button">Login</button>
+                        <p className="redirect-link">
                             Don't have an account? <a href="/register">Register</a>
                         </p>
                     </div>
+
                 </form>
             </div>
         </div>
