@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Parkinsans:wght@300..800&family=Playwrite+CU:wght@100..400&family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
+*{
+  font-family: 'Bebas Neue';
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 65vw;
+}

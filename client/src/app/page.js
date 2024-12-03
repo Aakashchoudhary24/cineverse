@@ -1,23 +1,22 @@
 import Navbar from './components/navbar';
-import '/src/app/styles/page.css';
+import './styles/page.css';
+
 export default function Home() {
   return (
     <div className='main'>
       <Navbar/>
-      <div className='trending-movie'>
-        <img src='/banner.jpg' alt='A Trending Movie'></img>
+      <div className='banner'>
+        <img src='/banner.jpg' alt='A Banner'></img>
       </div>
 
       <div className='sell'>
-        <p>The one site for <br/> all things Movie.</p>
+        <p>Everything Cinema<br/> At one place.</p>
       </div>
 
-      <div className='intro'>
-        <p>CineVerse lets you ...</p>
         <div className='features'>
           <div className='feature'>
-            <p>Keep track of every film you've ever watched (or just start from the 
-              day you join)</p>
+            <p>Keep track of every film you've ever watched (or just start from when
+              you join)</p>
           </div>
           <div className='feature'>
             <p>Write and share reviews, and follow friends
@@ -35,7 +34,6 @@ export default function Home() {
             </p>
           </div>
         </div>
-      </div>
 
       <div>
         <p></p>

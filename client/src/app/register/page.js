@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import '../styles/login-register.css';
+import '../styles/login-register.css'
 import Navbar from '../components/navbar';
 
 export default function RegisterPage() {

@@ -33,12 +33,9 @@ export default function Navbar() {
           </ul>
         </div>
 
-        <div className='create-task'>
-          <button
-            className='task-button'
-          >
-            + CREATE
-          </button>
+
+        <div className='create'>
+          <button className='create-button'>+ CREATE</button>
         </div>
 
         <div className='search-bar'>

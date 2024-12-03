@@ -1,0 +1,70 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(#b94848, #852525, black);
+    padding: 0;
+    height: 100vh;
+    overflow: scroll;
+}
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    width: 65vw;
+}
+::-webkit-scrollbar{
+    display: none;
+}
+.banner {
+    position: relative;
+    height: 65vh;
+    align-items: center;
+    z-index: -1;
+    opacity: 0.3;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.banner img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50px;
+    opacity: 0.6;
+    z-index: -10;
+}
+.sell {
+    position: relative;
+    font-style: italic;
+    font-size: 6rem;
+    font-family: 'Bebas Neue';
+    color: yellow;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    top: -58vh;
+}
+.features{
+    position: relative;
+    top: -62vh;
+    width: 70%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    margin: 0 auto;
+}
+.feature{
+    font-size: 1.5rem;
+    text-align: center;
+    color: beige;
+    padding: 0.1rem 1rem;
+    border-radius: 5px;
+}
+.feature:hover{
+    color: beige;
+    background: linear-gradient(orange, orangered);
+    transform: translateY(-0.5vh);
+    transition: 0.5s;
+}
