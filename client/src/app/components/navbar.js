@@ -2,18 +2,32 @@
 
 import Link from 'next/link';
 import '../styles/navbar.css';
+import { useState, useEffect } from 'react';
+import { redirect } from 'next/dist/server/api-utils';
 
 export default function Navbar() {
 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
+    setIsAuthenticated(false);
     window.location.href='/login';
-};
+  };
+  const showProfile = () => {
+    window.location.href='/register';
+  }
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+        setIsAuthenticated(true);
+    }
+  }, []);
+
 
   return (
     <nav className='navbar'>
-      <div className='container'>
+      <div className='container' id='nav-container'>
         <div className='logo'>
           <span>CineVerse</span>
         </div>
@@ -41,14 +55,17 @@ export default function Navbar() {
           </ul>
         </div>
 
+        {isAuthenticated && (
+          <div className='profile'>
+            <button className='profile-button' onClick={showProfile}>PROFILE</button>
+          </div>
+        )}
 
-        <div className='create'>
-          <button className='create-button'>+ CREATE</button>
-        </div>
-
+        
         <div className='logout'>
-          <button className="logout-button" onClick={handleLogout}>Logout</button>
+            <button className="logout-button" onClick={handleLogout}>Logout</button>
         </div>
+        
 
         <div className='search-bar'>
           <input

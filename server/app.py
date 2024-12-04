@@ -13,11 +13,9 @@ app.config['DB_PASSWORD'] = DB_PASSWORD
 app.config['DB_HOST'] = 'localhost'
 app.config['DB_PORT'] = 5432
 
-# Secret key for JWT token signing
 app.config['JWT_SECRET_KEY'] = SECRET_KEY
-
-# Initialize JWT manager
 jwt = JWTManager(app)
+
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 def connect_db():
@@ -43,27 +41,48 @@ def register():
     password = data.get('password')
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
 
-    print(f"Received data: username={username}, password={password}")  # Debugging
-
     try:
         conn = connect_db()
         if conn is None:
             return jsonify({"error": "Database connection failed"}), 500
         
         cursor = conn.cursor()
-        print("Executing insert query...")  # Debugging
         cursor.execute("INSERT INTO users(username, password) VALUES (%s, %s) RETURNING id;", (username, hashed_password))
         user_id = cursor.fetchone()[0]
         conn.commit()
         cursor.close()
         conn.close()
-
-        print(f"User registered with ID: {user_id}")  # Debugging
         return jsonify({"message": "User registered successfully", "user_id": user_id}), 201
+    
     except Exception as e:
-        print(f"Error: {e}")  # Debugging
+        print(f"Error: {e}")
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
 
+@app.route('/api/tasks', methods=['POST'])
+def create_task():
+    data = request.get_json();
+    if not data or 'title' not in data:
+        return jsonify({'error': "Title is required"}), 400
+    
+    title = data.get('title')
+    description = data.get('description')
+    genres = data.get('genres')
+    image_url = data.get('image_url')
+    
+    try:
+        conn = connect_db()
+        if conn is None:
+            return jsonify({'error':'Database connection failed'}), 500
+        
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO tasks(title, description, category, image_url) VALUES(%s,%s,%s,%s);", (title, description, genres, image_url));
+        conn.commit()
+        cursor.close()
+        conn.close()
+    except Exception as e:
+        return jsonify({'message':'An error occurred', 'error': str(e)}), 500
+    
+    
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -73,26 +92,22 @@ def login():
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
 
-    # Connect to the database
     conn = connect_db()
     if conn is None:
         return jsonify({"error": "Database connection failed"}), 500
 
     cursor = conn.cursor()
 
-    # Check if username exists in the database
-    cursor.execute("SELECT id, username, password FROM users WHERE username = %s;", (username,))
+    cursor.execute("SELECT id, password FROM users WHERE username = %s;", (username,))
     user = cursor.fetchone()
 
     if not user:
         return jsonify({"error": "Invalid username or password"}), 401
 
-    # Check if the provided password matches the hashed password
-    user_id, db_username, db_password = user
+    user_id, db_password = user
     if not check_password_hash(db_password, password):
         return jsonify({"error": "Invalid username or password"}), 401
 
-    # Generate JWT token
     access_token = create_access_token(identity=user_id)
     return jsonify({"message": "Login successful", "access_token": access_token}), 200
 

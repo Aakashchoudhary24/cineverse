@@ -43,7 +43,7 @@ export default function CreateTasks() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`, // Include token
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
                 body: JSON.stringify({
                     title: lowerCaseTitle,
@@ -71,6 +71,9 @@ export default function CreateTasks() {
     return (
         <div className='main'>
             <Navbar />
+            <div className='render-tasks'>
+                
+            </div>
             <div className="form-container">
                 <form onSubmit={handleTaskSubmit} className="task-form">
                     <h1 className='form-title'>Create a Task</h1>
