@@ -37,12 +37,7 @@ export default function Navbar() {
             <li>
               <Link href='/'>HOME</Link>
             </li>
-            <li>
-              <Link href='/login'>LOGIN</Link>
-            </li>
-            <li>
-              <Link href='/register'>REGISTER</Link>
-            </li>
+            
             <li>
               <Link href='/blog'>BLOG</Link>
             </li>
@@ -52,6 +47,16 @@ export default function Navbar() {
             <li>
               <Link href='/tasks'>TASKS</Link>
             </li>
+            {!isAuthenticated && (
+              <li>
+                <Link href='/login'>LOGIN</Link>
+              </li>
+            )}
+            {!isAuthenticated && (
+              <li>
+                <Link href='/register'>REGISTER</Link>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -62,9 +67,11 @@ export default function Navbar() {
         )}
 
         
-        <div className='logout'>
+        {isAuthenticated && (
+          <div className='logout'>
             <button className="logout-button" onClick={handleLogout}>Logout</button>
-        </div>
+          </div>
+        )}
         
 
         <div className='search-bar'>

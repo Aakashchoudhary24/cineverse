@@ -18,16 +18,6 @@ body {
     flex-direction: column;
     align-items: center;
 }
-.tasks-container {
-    background-color: #171f2b;
-    border-radius: 8px;
-    width: 100%;
-    max-width: 25vw;
-    height: fit-content;
-    margin-top: 12vh;
-    opacity: 0.8;
-    padding: 1rem;
-}
 .form-title {
     color: #ff9800; 
     text-align: center;
@@ -73,4 +63,25 @@ body {
 }
 .submit-button:hover {
     background-color: #e68a00;
+}
+
+.render-tasks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+}
+.render-tasks {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid white;
+    padding: 2rem;
+    margin-top: 10vh;
+    height: max-content;
+    width: 70%;
+}
+.head {
+    border: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

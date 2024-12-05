@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 import psycopg2
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import JWTManager, create_access_token
+from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from credentials import DB_PASSWORD, DB_NAME, DB_USERNAME, SECRET_KEY
 
 app = Flask(__name__)
@@ -57,31 +57,6 @@ def register():
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
-
-@app.route('/api/tasks', methods=['POST'])
-def create_task():
-    data = request.get_json();
-    if not data or 'title' not in data:
-        return jsonify({'error': "Title is required"}), 400
-    
-    title = data.get('title')
-    description = data.get('description')
-    genres = data.get('genres')
-    image_url = data.get('image_url')
-    
-    try:
-        conn = connect_db()
-        if conn is None:
-            return jsonify({'error':'Database connection failed'}), 500
-        
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO tasks(title, description, category, image_url) VALUES(%s,%s,%s,%s);", (title, description, genres, image_url));
-        conn.commit()
-        cursor.close()
-        conn.close()
-    except Exception as e:
-        return jsonify({'message':'An error occurred', 'error': str(e)}), 500
-    
     
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -110,6 +85,66 @@ def login():
 
     access_token = create_access_token(identity=user_id)
     return jsonify({"message": "Login successful", "access_token": access_token}), 200
+    
+@app.route('/api/tasks', methods=['GET'])
+def get_tasks():
+    try:
+        conn = connect_db()
+        cursor = conn.cursor()
+        cursor.execute("SELECT title, genres, description FROM tasks;")
+        tasks = cursor.fetchall()
 
+        tasks_list = [
+            {"title": task[0], "genres": task[1], "description": task[2]}
+            for task in tasks
+        ]
+        return jsonify({"tasks": tasks_list}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/tasks', methods=['POST'])
+@jwt_required()
+def create_task():
+    try:
+        data = request.get_json()
+        print("Incoming Payload:", data)
+        
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        if 'title' not in data or not data['title']:
+            return jsonify({"error": "Title is required and cannot be empty"}), 422
+        if 'description' not in data or not data['description']:
+            return jsonify({"error": "Description is required and cannot be empty"}), 422
+
+        title = data['title']
+        genres = data.get('genres', '') 
+        description = data['description']
+        user_id = get_jwt_identity()
+
+        conn = connect_db()
+        if conn is None:
+            return jsonify({"error": "Database connection failed"}), 500
+
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            INSERT INTO tasks (title, genres, description, user_id) 
+            VALUES (%s, %s, %s, %s) RETURNING id;
+            """,
+            (title, genres, description, user_id)
+        )
+        task_id = cursor.fetchone()[0]
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return jsonify({"message": "Task created successfully", "task_id": task_id}), 201
+
+    except Exception as e:
+        print("Error:", str(e))
+        return jsonify({"error": "Failed to create task", "details": str(e)}), 500
+
+    
 if __name__ == '__main__':
     app.run(debug=True)
