@@ -118,7 +118,7 @@ export default function RegisterPage() {
                         />
                     </div>
                     <div className="form-actions">
-                        <button type="submit" className="submit-button">Register</button>
+                        <button type="submit" className="submit-button">SUBMIT</button>
                         <p className="redirect-link">
                             Already have an account? <a href="/login">Login</a>
                         </p>

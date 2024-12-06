@@ -1,17 +1,35 @@
+'use client';
 import Navbar from './components/navbar';
 import './styles/page.css';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   return (
     <div className='main'>
       <Navbar/>
-      <div className='banner'>
-        <img src='/banner.jpg' alt='A Banner'></img>
-      </div>
 
-      <div className='sell'>
-        <p>Everything Cinema<br/> At one place.</p>
+      {isAuthenticated && (
+        <div className='welcome'>
+        <p>Welcome back, here's what we've been watching</p>
       </div>
+      )}
+
+      {!isAuthenticated && (
+        <div className='sell'>
+        <p>Track films you've watched. <br></br>
+        Save those you want to see. <br></br>
+        Tell others what's good. </p>
+      </div>
+      )}
 
         <div className='features'>
           <div className='feature'>
@@ -19,8 +37,7 @@ export default function Home() {
               you join)</p>
           </div>
           <div className='feature'>
-            <p>Write and share reviews, and follow friends
-              and other members to read theirs
+            <p>Find all your favorite movies, series, documentaries and many more
             </p>
           </div>
           <div className='feature'>
@@ -29,7 +46,7 @@ export default function Home() {
             </p>
           </div>
           <div className='feature'>
-            <p>Compile and share lists of films on any topic
+            <p>Create lists of films on any topic
               and keep a watchlist of films to see
             </p>
           </div>

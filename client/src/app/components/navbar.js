@@ -5,24 +5,25 @@ import '../styles/navbar.css';
 import { useState, useEffect } from 'react';
 
 export default function Navbar() {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
-    window.location.href='/home';
+    window.location.href = '/'
   };
+
   const showProfile = () => {
-    window.location.href='/register';
-  }
+    window.location.href = '/login';
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
-        setIsAuthenticated(true);
+      setIsAuthenticated(true);
     }
   }, []);
-
 
   return (
     <nav className='navbar'>
@@ -52,30 +53,20 @@ export default function Navbar() {
                 <Link href='/register'>REGISTER</Link>
               </li>
             )}
+            <li>
+              <Link href='/track'>TRACK</Link>
+            </li>
+            {isAuthenticated && (
+              <li>
+                  <button className='nav-button' onClick={showProfile}>PROFILE</button>
+              </li>
+            )}
+            {isAuthenticated && (
+              <li>
+                  <button className='nav-button' onClick={handleLogout}>LOGOUT</button>
+              </li>
+            )}
           </ul>
-        </div>
-
-        {isAuthenticated && (
-          <div className='profile'>
-            <button className='profile-button' onClick={showProfile}>PROFILE</button>
-          </div>
-        )}
-
-        
-        {isAuthenticated && (
-          <div className='logout'>
-            <button className="logout-button" onClick={handleLogout}>Logout</button>
-          </div>
-        )}
-        
-
-        <div className='search-bar'>
-          <input
-            className='search-query'
-            type='text'
-            placeholder='Search...'
-          />
-          <button className='search-button'>🔍</button>
         </div>
       </div>
     </nav>

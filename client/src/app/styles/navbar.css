@@ -1,62 +1,67 @@
 .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     height: 8vh;
-    width: 100%;
-    color: beige;
+    width: 50%;
     overflow: hidden;
-    background: transparent;
+    line-height: 80px;
+    font-family: 'Faculty Glyphic';
 }
 .navbar {
-    position: fixed;
-    width: 64vw;
+    position: sticky;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Bebas Neue';
 }
 .logo {
-    font-size: 3rem;
-    font-style: italic;
-    color: yellow; 
+    font-size: 2rem;
+    font-style: bold;
+    color: white; 
+    font-family: 'Faculty Glyphic';
+}
+.links {
+    display: flex;
+    flex-direction: row;
+    font-size: 1rem;
+    margin-top: 10px;
 }
 .links ul {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
     list-style-type: none;
-    font-size: 2rem;
-    gap: 2rem;
 }
 .links ul li{
-    justify-content: space-around;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 .links ul li a {
     text-decoration: none;
-    color: beige;
+    color: white;
     transition: color 0.3s;
     justify-content: space-around;
+    font-family: 'Faculty Glyphic';
 }
 .links ul li a:hover {
-    color: #ff9800; 
+    color: rgb(115, 199, 255); 
 }
-.profile-button {
+.nav-button {
     width: max-content;
-    font-size: 1.5rem;
-    margin:-2px 0 0  1vw;
+    font-size: 1rem;
     padding: 0 5px;
-    background-color: beige;
-    color: red;
+    margin-top: 4px;
+    background-color: transparent;
+    color: white;
     border: none;
     border-radius: 5px;
 }
-.logout-button {
-    width: max-content;
-    font-size: 1.5rem;
-    padding: 0 5px;
-    margin: -2px 1vw 0 1vw;
-    background-color: rgb(255, 77, 53);
-    color: beige;
-    border: none;
-    border-radius: 5px;
+.nav-button:hover{
+    color: #ff9800;
 }
 .search-bar {
     display: flex;

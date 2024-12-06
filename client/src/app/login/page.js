@@ -1,6 +1,7 @@
 'use client';
 
 import '../styles/forms.css';
+import '../globals.css';
 import Navbar from '../components/navbar';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -61,7 +62,7 @@ export default function LoginPage() {
             <Navbar />
             <div className="form-container">
                 <form onSubmit={handleLoginSubmit} method="POST" className="login-form">
-                    <h1 className="form-title">Login</h1>
+                    <h1 className="form-title">LOGIN</h1>
 
                     <div className="form-group">
                         <label htmlFor="username">Username:</label>
@@ -88,7 +89,7 @@ export default function LoginPage() {
                     {error && <p className="error-message" style={{ color: 'red' }}>{error}</p>}
 
                     <div className="form-actions">
-                        <button type="submit" className="submit-button">Login</button>
+                        <button type="submit" className="submit-button">SUBMIT</button>
                         <p className="redirect-link">
                             Don't have an account? <a href="/register">Register</a>
                         </p>

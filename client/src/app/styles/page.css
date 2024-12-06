@@ -1,70 +1,40 @@
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background: linear-gradient(#b94848, #852525, black);
-    margin: 0;
-    padding: 0;
-    overflow: scroll;
-}
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-    width: 65vw;
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Faculty+Glyphic&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Parkinsans:wght@300..800&family=Playwrite+CU:wght@100..400&family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
 ::-webkit-scrollbar{
     display: none;
 }
-.banner {
-    position: relative;
-    height: 65vh;
-    align-items: center;
-    z-index: -1;
-    opacity: 0.3;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
-.banner img {
-    height: 100%;
-    width: 100%;
-    border-radius: 50px;
-    opacity: 0.6;
-    z-index: -10;
+.welcome {
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+    font-family: 'Faculty Glyphic';
 }
 .sell {
-    position: relative;
-    font-style: italic;
-    font-size: 6rem;
-    font-family: 'Bebas Neue';
-    color: yellow;
-    display: flex;
-    justify-content: center;
+    font-size: 2.5rem;
+    font-family: 'Faculty Glyphic';
+    color: white;
     text-align: center;
-    top: -58vh;
+    padding: 1rem;
+    line-height: 4rem;
 }
 .features{
     position: relative;
-    top: -62vh;
-    width: 80%;
+    gap: 0.5rem;
+    width: 50vw;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     margin: 0 auto;
 }
 .feature{
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-align: center;
-    color: beige;
-    padding: 0.1rem 1rem;
-    border-radius: 5px;
+    color: white;
+    padding: 5px;
+    background-color: #1a2430;
+    letter-spacing: 2px;
 }
 .feature:hover{
-    color: beige;
-    background: linear-gradient(orange, orangered);
+    color: white;
     transform: translateY(-0.5vh);
     transition: 0.5s;
 }

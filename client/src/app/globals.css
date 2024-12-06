@@ -1,15 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Parkinsans:wght@300..800&family=Playwrite+CU:wght@100..400&family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
-*{
-  font-family: 'Bebas Neue';
-}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Faculty+Glyphic&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Parkinsans:wght@300..800&family=Playwrite+CU:wght@100..400&family=Playwrite+HR+Lijeva:wght@100..400&display=swap');
+
 body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(rgb(55, 55, 59),rgb(29, 29, 36), #12161a,#12161a,#12161a,#12161a,#12161a);
   margin: 0;
   padding: 0;
+  overflow: hidden;
+  height: 100vh;
 }
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 1rem;
-  width: 65vw;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
