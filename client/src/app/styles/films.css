@@ -1,0 +1,61 @@
+.films-container{
+    margin-top: 10vh;
+    width: 100%;
+    height: 86vh;
+    overflow-y: scroll;
+    padding: 1rem;
+}
+.search-form {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    align-items: center;
+    font-size: 1.9rem;
+    padding: 0px 10px;
+    color: beige;
+}
+#genre {
+    width: 7rem;
+}
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    justify-content: center;
+    overflow: auto;
+    padding: 0rem 10px;
+    color: beige;
+}
+
+.movie-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 10px;
+    background-color: rgba(230, 38, 38, 0.1); 
+    height: fit-content;
+    width: 200px;
+}
+.movie-card:hover{
+    background-color: rgba(253, 129, 129, 0.2);
+    transition: 0.5s;
+}
+
+.movie-poster {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.movie-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+.movie-details {
+    font-size: 1rem;
+}

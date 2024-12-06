@@ -24,12 +24,16 @@
     display: flex;
     list-style-type: none;
     font-size: 2rem;
-    gap: 1.4rem;
+    gap: 2rem;
+}
+.links ul li{
+    justify-content: space-around;
 }
 .links ul li a {
     text-decoration: none;
     color: beige;
     transition: color 0.3s;
+    justify-content: space-around;
 }
 .links ul li a:hover {
     color: #ff9800; 
@@ -65,6 +69,7 @@
     background-color: #282828; 
     color: white;
     font-size: 1rem;
+    font-family: 'Trebuchet MS';
 }
 .search-query::placeholder {
     color: #bbb; 

@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import '../styles/navbar.css';
 import { useState, useEffect } from 'react';
-import { redirect } from 'next/dist/server/api-utils';
 
 export default function Navbar() {
 
@@ -12,7 +11,7 @@ export default function Navbar() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('user');
     setIsAuthenticated(false);
-    window.location.href='/login';
+    window.location.href='/home';
   };
   const showProfile = () => {
     window.location.href='/register';
@@ -37,15 +36,11 @@ export default function Navbar() {
             <li>
               <Link href='/'>HOME</Link>
             </li>
-            
-            <li>
-              <Link href='/blog'>BLOG</Link>
-            </li>
             <li>
               <Link href='/lists'>LISTS</Link>
             </li>
             <li>
-              <Link href='/tasks'>TASKS</Link>
+              <Link href='/films'>FILMS</Link>
             </li>
             {!isAuthenticated && (
               <li>
