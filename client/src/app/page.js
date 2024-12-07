@@ -17,19 +17,11 @@ export default function Home() {
     <div className='main'>
       <Navbar/>
 
-      {isAuthenticated && (
-        <div className='welcome'>
-        <p>Welcome back, here's what we've been watching</p>
-      </div>
-      )}
-
-      {!isAuthenticated && (
         <div className='sell'>
         <p>Track films you've watched. <br></br>
         Save those you want to see. <br></br>
         Tell others what's good. </p>
       </div>
-      )}
 
         <div className='features'>
           <div className='feature'>

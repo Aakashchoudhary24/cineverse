@@ -16,7 +16,7 @@ app.config['DB_PORT'] = 5432
 app.config['JWT_SECRET_KEY'] = SECRET_KEY
 jwt = JWTManager(app)
 
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
 def connect_db():
     try:
@@ -58,6 +58,7 @@ def register():
         print(f"Error: {e}")
         return jsonify({"message": "An error occurred", "error": str(e)}), 500
     
+    
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -85,69 +86,70 @@ def login():
 
     access_token = create_access_token(identity=user_id)
     return jsonify({"message": "Login successful", "access_token": access_token}), 200
-    
-@app.route('/api/track', methods=['GET'])
+
+
+@app.route('/api/track', methods=['GET', 'POST'])
 @jwt_required()
-def get_track():
+def track():
     user_id = get_jwt_identity()
 
-    try:
-        conn = connect_db()
-        if conn is None:
-            return jsonify({"error": "Database connection failed"}), 500
+    if request.method == 'GET':
+        try:
+            conn = connect_db()
+            if conn is None:
+                return jsonify({"error": "Database connection failed"}), 500
+            
+            cursor = conn.cursor()
+            cursor.execute("SELECT id, movie_name, genre, rating, summary FROM tracks WHERE user_id = %s;", (user_id,))
+            tracks = cursor.fetchall()
+            conn.close()
+            
+            tracks_list = [{
+                'id': track[0],
+                'movie_name': track[1],
+                'genre': track[2],
+                'rating': track[3],
+                'summary': track[4],
+            } for track in tracks]
+            
+            return jsonify({"tracks": tracks_list}), 200
+        except Exception as e:
+            return jsonify({"error": "Failed to fetch tracks", "details": str(e)}), 500
 
-        cursor = conn.cursor()
-        cursor.execute("SELECT movie_name, genre, summary, rating, date_watched FROM tracks WHERE user_id = %s;", (user_id,))
-        tracks = cursor.fetchall()
 
-        tracks_list = [
-            {"movie_name": track[0], "genre": track[1], "summary": track[2], "rating": track[3], "date_watched": track[4]}
-            for track in tracks
-        ]
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        return jsonify({"track": tracks_list}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    elif request.method == 'POST':
+        
+        data = request.get_json()
+        
+        movie_name = data.get('movie_name')
+        genre = data.get('genre', '')
+        rating = data.get('rating')
+        summary = data.get('summary')
+        
+        if not data or movie_name not in data or summary not in data:
+            return jsonify({"error": "Missing required fields"}), 422
     
-@app.route('/api/track', methods=['POST'])
-@jwt_required()
-def create_track():
-    data = request.get_json()
+        if isinstance(rating, str):
+            rating = int(rating)
 
-    if not data or 'movie_name' not in data or 'summary' not in data:
-        return jsonify({"error": "Movie name and summary are required"}), 400
+        if not (0 <= rating <= 10):
+            return jsonify({"error": "Rating must be between 0 and 10"}), 422
+        try:
+            conn = connect_db()
+            if conn is None:
+                return jsonify({"error": "Database connection failed"}), 500
+            
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO tracks (user_id, movie_name, genre, rating, summary) VALUES (%s, %s, %s, %s, %s) RETURNING id;", 
+            (user_id, movie_name, genre, rating, summary))
 
-    movie_name = data['movie_name']
-    genre = data.get('genre', '')  # Optional genre
-    summary = data['summary']
-    rating = data.get('rating', 0)  # Default rating is 0 if not provided
-    date_watched = data['date_watched']  # Expecting date in 'YYYY-MM-DD' format
-    user_id = get_jwt_identity()
-
-    try:
-        conn = connect_db()
-        if conn is None:
-            return jsonify({"error": "Database connection failed"}), 500
-
-        cursor = conn.cursor()
-        cursor.execute(
-            """
-            INSERT INTO tracks (user_id, movie_name, genre, summary, rating, date_watched)
-            VALUES (%s, %s, %s, %s, %s, %s) RETURNING id;
-            """,
-            (user_id, movie_name, genre, summary, rating, date_watched)
-        )
-        track_id = cursor.fetchone()[0]
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        return jsonify({"message": "Movie added to track", "track_id": track_id}), 201
-    except Exception as e:
-        return jsonify({"error": "Failed to add movie to track", "details": str(e)}), 500
+            track_id = cursor.fetchone()[0]
+            conn.commit()
+            conn.close()
+            
+            return jsonify({"message": "Track added successfully", "track_id": track_id}), 201
+        except Exception as e:
+            return jsonify({"error": "Failed to add track", "details": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

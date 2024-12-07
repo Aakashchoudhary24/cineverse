@@ -4,23 +4,8 @@
 import React, { useState } from 'react';
 import '../styles/forms.css'
 import Navbar from '../components/navbar';
-import { redirect } from 'next/navigation';
-import { useEffect } from 'react';
 
 export default function RegisterPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-            setIsAuthenticated(true);
-        }
-    }, []);
-    if (isAuthenticated) {
-        window.alert('Please logout before registering as a different user');
-        redirect('/');
-        return null;
-    }
-
     const [formData, setFormData] = useState({
         username: '',
         password: '',
