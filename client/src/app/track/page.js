@@ -16,10 +16,10 @@ export default function TrackPage() {
     });
 
     useEffect(() => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (token) {
             setIsAuthenticated(true);
-            fetchTracks;
+            fetchTracks();
         }
     }, []);
 
@@ -30,7 +30,7 @@ export default function TrackPage() {
             const response = await fetch('http://localhost:5000/api/track', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
                     'Content-Type': 'application/json'
                 }
             });

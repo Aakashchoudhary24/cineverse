@@ -13,7 +13,7 @@ export default function LoginPage() {
     const router = useRouter();
 
     useEffect(() => {
-        const token = localStorage.getItem('accessToken');
+        const token = sessionStorage.getItem('accessToken');
         if (token) {
             setIsAuthenticated(true);
         }
@@ -45,7 +45,7 @@ export default function LoginPage() {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.setItem('accessToken', data.access_token);
+                sessionStorage.setItem('accessToken', data.access_token);
                 alert('Login successful! Redirecting...');
                 const redirectUrl = searchParams.get('redirect') || '/';
                 router.push(redirectUrl);

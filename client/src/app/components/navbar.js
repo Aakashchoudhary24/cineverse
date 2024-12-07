@@ -8,8 +8,8 @@ export default function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
     setIsAuthenticated(false);
     window.location.href = '/'
   };
@@ -19,7 +19,7 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     if (token) {
       setIsAuthenticated(true);
     }

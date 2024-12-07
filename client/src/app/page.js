@@ -7,7 +7,7 @@ export default function Home() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    const token = sessionStorage.getItem('accessToken');
     if (token) {
       setIsAuthenticated(true);
     }
