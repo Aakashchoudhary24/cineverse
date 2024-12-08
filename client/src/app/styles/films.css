@@ -10,16 +10,15 @@
     justify-content: center;
     font-family: 'Bebas Neue';
     gap: 1rem;
-    top: 0;
     align-items: center;
     font-size: 1.9rem;
-    padding: 0px 20px;
-    color: white;   
-    position: sticky;
     padding: 1rem;
+    top: 0;
+    position: sticky;
     z-index: 100;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(37, 35, 35, 0.4);
+    border-radius: 10px;
+    color: white;
 }
 #filters {
     width: fit-content;
@@ -64,3 +63,61 @@
 .movie-details {
     font-size: 1rem;
 }
+@media (max-width: 2000px) {
+    .films-container{
+        width: 80vw;    
+    }
+}
+@media (max-width: 1024px) {
+    .films-container{
+        width: 90vw;    
+    }
+    .search-form {
+        flex-wrap: wrap;
+        font-size: 1.5rem;
+        gap: 0.8rem;
+        padding: 0.8rem;
+    }
+    #filters {
+        font-size: 1.2rem;
+    }
+}
+@media (max-width: 1224px) {
+    .search-form {
+        flex-wrap: wrap;
+        font-size: 1.5rem;
+        gap: 0.8rem;
+        padding: 0.8rem;
+    }
+    #filters {
+        font-size: 1.2rem;
+    }
+}
+@media (max-width: 768px) {
+    .search-form {
+        flex-direction: column;
+        font-size: 1.2rem;
+        gap: 0.6rem;
+        padding: 0.6rem;
+        text-align: center;
+    }
+    #filters {
+        width: 100%;
+        text-align: center;
+    }
+}
+@media (max-width: 480px) {
+    .films-container {
+        width: 90vw; 
+    }
+    .search-form {
+        font-size: 1rem;
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+    #filters {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+}
+

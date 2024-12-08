@@ -1,13 +1,15 @@
+/* Base Styling */
 .container {
     display: flex;
     justify-content: space-around;
     align-items: center;
     height: 8vh;
-    width: 50%;
+    width: 50vw;
     overflow: hidden;
     line-height: 80px;
     font-family: 'Faculty Glyphic';
 }
+
 .navbar {
     position: sticky;
     width: 100%;
@@ -16,18 +18,21 @@
     align-items: center;
     font-family: 'Bebas Neue';
 }
+
 .logo {
     font-size: 2rem;
     font-style: bold;
-    color: white; 
+    color: white;
     font-family: 'Faculty Glyphic';
 }
+
 .links {
     display: flex;
     flex-direction: row;
     font-size: 1rem;
     margin-top: 10px;
 }
+
 .links ul {
     display: flex;
     flex-direction: row;
@@ -35,11 +40,13 @@
     gap: 1rem;
     list-style-type: none;
 }
-.links ul li{
+
+.links ul li {
     display: flex;
     flex-direction: row;
     align-items: center;
 }
+
 .links ul li a {
     text-decoration: none;
     color: white;
@@ -47,9 +54,11 @@
     justify-content: space-around;
     font-family: 'Faculty Glyphic';
 }
+
 .links ul li a:hover {
-    color: rgb(115, 199, 255); 
+    color: rgb(115, 199, 255);
 }
+
 .nav-button {
     width: max-content;
     font-size: 1rem;
@@ -60,25 +69,31 @@
     border: none;
     border-radius: 5px;
 }
-.nav-button:hover{
-    color: #ff9800;
+
+.nav-button:hover {
+    color: rgb(115, 199, 255);
+    cursor: pointer;
 }
+
 .search-bar {
     display: flex;
     align-items: center;
 }
+
 .search-query {
     padding: 7px 5px;
-    border: 1px solid #444; 
+    border: 1px solid #444;
     border-radius: 4px;
-    background-color: #282828; 
+    background-color: #282828;
     color: white;
     font-size: 1rem;
     font-family: 'Trebuchet MS';
 }
+
 .search-query::placeholder {
-    color: #bbb; 
+    color: #bbb;
 }
+
 .search-button {
     background-color: #ff9800;
     border: none;
@@ -87,4 +102,109 @@
     cursor: pointer;
     color: black;
     font-weight: bold;
+}
+
+/* Media Queries */
+
+/* For Tablets and Medium Screens */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 0.5rem 1rem;
+    }
+    .logo {
+        font-size: 1.5rem;
+    }
+    .links {
+        font-size: 0.9rem;
+    }
+    .links ul {
+        gap: 0.8rem;
+    }
+    .nav-button {
+        font-size: 0.9rem;
+        padding: 0 4px;
+    }
+    .search-bar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* For Large Phones and Small Tablets */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+        flex-direction: column;
+        height: auto;
+        line-height: normal;
+    }
+    .links {
+        flex-direction: column;
+        align-items: center;
+    }
+    .links ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .nav-button {
+        margin-top: 1rem;
+    }
+    .search-bar {
+        width: 100%;
+    }
+    .search-query {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+}
+
+/* For Small Phones */
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+    .logo {
+        font-size: 1.2rem;
+    }
+    .links {
+        font-size: 0.8rem;
+    }
+    .links ul {
+        gap: 0.3rem;
+    }
+    .nav-button {
+        font-size: 0.8rem;
+        padding: 0 3px;
+    }
+    .search-bar {
+        flex-direction: column;
+        gap: 0.4rem;
+        padding: 0.5rem;
+    }
+    .search-query {
+        font-size: 0.8rem;
+    }
+    .search-button {
+        font-size: 0.8rem;
+        padding: 6px 6px;
+    }
+}
+
+/* For Very Small Screens */
+@media (max-width: 360px) {
+    .logo {
+        font-size: 1rem;
+    }
+    .links ul li a {
+        font-size: 0.7rem;
+    }
+    .search-query {
+        font-size: 0.7rem;
+        padding: 5px 4px;
+    }
+    .search-button {
+        font-size: 0.7rem;
+        padding: 5px 5px;
+    }
 }

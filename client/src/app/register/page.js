@@ -1,4 +1,3 @@
-// RegisterPage.js
 'use client';
 
 import React, { useState } from 'react';
@@ -46,7 +45,7 @@ export default function RegisterPage() {
             });
 
             if (response.ok) {
-                window.alert("Registration successful! Please log in.");
+                alert("Registration successful! Please log in.");
                 setFormData({ username: '', password: '', confirmPassword: '' });
                 window.location.href = '/login';
             } else {

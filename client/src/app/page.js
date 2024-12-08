@@ -12,15 +12,16 @@ export default function Home() {
       setIsAuthenticated(true);
     }
   }, []);
-
+  
   return (
     <div className='main'>
       <Navbar/>
 
         <div className='sell'>
-        <p>Track films you've watched. <br></br>
+        <p>Find your favorite films. <br></br>
+          Track films you've watched. <br></br>
         Save those you want to see. <br></br>
-        Tell others what's good. </p>
+        </p>
       </div>
 
         <div className='features'>

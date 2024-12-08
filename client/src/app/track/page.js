@@ -5,36 +5,28 @@ import '../styles/track.css';
 import '../styles/forms.css';
 
 export default function TrackPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [tracks, setTracks] = useState([]);
     const [showAddTrackForm, setShowAddTrackForm] = useState(false);
-    const [newTrack, setNewTrack] = useState({
+    const [formData, setFormData] = useState({
         movieName: '',
         genre: '',
-        rating: 0,
         summary: '',
     });
-
-    useEffect(() => {
-        const token = sessionStorage.getItem('accessToken');
-        if (token) {
-            setIsAuthenticated(true);
-            fetchTracks();
-        }
-    }, []);
-
     const fetchTracks = async () => {
+        const token = sessionStorage.getItem('accessToken');
+    
         try {
-            
-
             const response = await fetch('http://localhost:5000/api/track', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 }
             });
+    
             const data = await response.json();
+            console.log('Full Response:', response);
+            console.log('Response Data:', data);
     
             if (response.ok) {
                 setTracks(data.tracks);
@@ -46,62 +38,67 @@ export default function TrackPage() {
         }
     };
 
+    useEffect(() => {
+        const token = sessionStorage.getItem('accessToken');
+        if (token) {
+            fetchTracks();
+        }
+    }, []);
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewTrack((prevTrack) => ({
+        setFormData((prevTrack) => ({
             ...prevTrack,
-            [name]: value
+            [name]: value,
         }));
     };
 
     const handleAddTrack = async (e) => {
-        e.preventDefault();
-        console.log('Sent track data:', newTrack);
+    e.preventDefault();
+    console.log('Sent track data:', formData);
+    const { movieName, genre, summary } = formData;
     
-        if (!newTrack.movieName || !newTrack.summary) {
-            alert("Movie name and summary are required!");
-            return;
-        }
-    
-        try {
-            const parsedRating = parseInt(newTrack.rating, 10);
-            if (isNaN(parsedRating)) {
-                alert("Rating must be a valid number between 0 and 10.");
-                return;
-            }
-            const response = await fetch('http://localhost:5000/api/track', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                },
-                body: JSON.stringify({
-                    movie_name: newTrack.movieName,
-                    genre: newTrack.genre,
-                    rating: parsedRating,
-                    summary: newTrack.summary,
-                }),          
+    if (!movieName || !summary) {
+        alert("Movie name and summary are required!");
+        return;
+    }
+    if (typeof movieName !== 'string' || typeof summary !== 'string') {
+        alert("Movie name and summary must be strings!");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/api/track', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({
+                movieName: movieName.trim(),
+                genre: genre ? genre.trim() : '', 
+                summary: summary.trim()
+            })
+        });
+
+        if (response.ok) {
+            alert('Track added successfully!');
+            setFormData({
+                movieName: '',
+                genre: '',
+                summary: '',
             });
-    
-            if (response.ok) {
-                alert('Track added successfully!');
-                setNewTrack({
-                    movieName: '',
-                    genre: '',
-                    rating: 0,
-                    summary: '',
-                });
-                setShowAddTrackForm(false);
-                fetchTracks();
-            } else {
-                console.log('Error adding track:', data.error);
-                alert(`Error: ${data.error || 'Failed to add track'}`); 
-            }
-        } catch (error) {
-            console.log('Network or parsing error:', error);
-            alert('An error occurred while adding the track');
+            setShowAddTrackForm(false);
+            fetchTracks();
+        } else {
+            console.log('Error adding track:');
+            alert('Failed to add track');
         }
-    };
+    } catch (error) {
+        console.log('Network or parsing error:', error);
+        alert('An error occurred while adding the track');
+    }
+};
+
     
     
 
@@ -121,7 +118,7 @@ export default function TrackPage() {
                         <input
                             type="text"
                             name="movieName"
-                            value={newTrack.movieName}
+                            value={formData.movieName}
                             onChange={handleInputChange}
                             required
                         />
@@ -132,20 +129,8 @@ export default function TrackPage() {
                         <input
                             type="text"
                             name="genre"
-                            value={newTrack.genre}
+                            value={formData.genre}
                             onChange={handleInputChange}
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Rating:</label>
-                        <input
-                            type="number"
-                            name="rating"
-                            value={newTrack.rating}
-                            onChange={handleInputChange}
-                            min="0"
-                            max="10"
                         />
                     </div>
 
@@ -153,7 +138,7 @@ export default function TrackPage() {
                         <label>Summary:</label>
                         <textarea
                             name="summary"
-                            value={newTrack.summary}
+                            value={formData.summary}
                             onChange={handleInputChange}
                             required
                         />
@@ -163,15 +148,19 @@ export default function TrackPage() {
             )}
 
             <div className="track-list">
-                {tracks.map(track => (
-                    <div key={track.id} className="track">
-                        <h3>{track.movieName}</h3>
-                        <p>{track.genre}</p>
-                        <p>Rating: {track.rating}</p>
-                        <p>{track.summary}</p>
-                    </div>
-                ))}
+                {tracks.length === 0 ? (
+                    <p>No tracks found. Add a new track to get started!</p>
+                ) : (
+                    tracks.map(track => (
+                        <div key={track.id} className="track">
+                            <h3>{track.movieName}</h3>
+                            <p>{track.genre || 'Genre not specified'}</p>
+                            <p>{track.summary}</p>
+                        </div>
+                    ))
+                )}
             </div>
+
             </div>
         </div>
     );

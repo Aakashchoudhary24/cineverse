@@ -1,10 +1,9 @@
 .form-container {
     background-color: #1e2a3d;
-    padding: 1rem;
+    padding: 1rem 1rem;
     border-radius: 8px;
-    width: 100%;
-    width: 20vw;
-    height: fit-content;
+    width: 30vw;
+    height: max-content;
     margin-top: 5vh;
     opacity: 0.8;
     align-self: center;
@@ -75,4 +74,15 @@
     font-family: 'Trebuchet MS';
     font-size: 1rem;
     padding: 0.5rem;
+}
+@media (max-width: 900px) {
+    .form-container{
+        width: 70vw;
+    }
+}
+
+@media (max-width: 1400px) {
+    .form-container{
+        width: 50vw;
+    }
 }

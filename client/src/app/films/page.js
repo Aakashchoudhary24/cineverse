@@ -13,9 +13,9 @@ export default function Films() {
     const [genres, setGenres] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    const TMDB_API_KEY = '538ba5fedf47c79f61f4055ec9f9841c';
+    const TMDB_API_KEY = '538ba5fedf47c79f61f4055ec9f9841c';{/*I know the risk of this, but couldn't resolve as importing and 
+        the .env method were showing error or not rendering the movies in site */}
 
-    // Generate years for the dropdown (from 1900 to current year)
     const years = Array.from(
         { length: new Date().getFullYear() - 1900 + 1 }, 
         (_, i) => new Date().getFullYear() - i
@@ -54,14 +54,12 @@ export default function Films() {
     }, []);
 
     const handleSearch = async () => {
-        // Only proceed if we have a reason to search
         if (!searchQuery.trim() && !selectedGenre && !selectedRating && !selectedYear) return;
 
         setIsLoading(true);
         try {
             let url;
             
-            // Handle different rating scenarios
             switch (selectedRating) {
                 case 'top250':
                     url = `https://api.themoviedb.org/3/movie/top_rated?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
@@ -70,22 +68,18 @@ export default function Films() {
                     url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&with_genres=99&sort_by=vote_average.desc&page=1`;
                     break;
                 default:
-                    // If there's a search query, use search endpoint
                     if (searchQuery.trim()) {
                         url = `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&language=en-US&query=${encodeURIComponent(searchQuery)}&page=1&include_adult=false`;
                     } 
-                    // Otherwise use discover endpoint for filtering
                     else {
                         url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_API_KEY}&language=en-US&page=1`;
                     }
             }
 
-            // Add genre filter if selected
             if (selectedGenre && selectedRating !== 'top250_documentaries') {
                 url += `&with_genres=${selectedGenre}`;
             }
 
-            // Add year filter if selected
             if (selectedYear) {
                 url += `&primary_release_year=${selectedYear}`;
             }

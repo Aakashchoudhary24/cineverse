@@ -3,27 +3,10 @@
 import '../styles/forms.css';
 import '../globals.css';
 import Navbar from '../components/navbar';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function LoginPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [error, setError] = useState('');
-    const searchParams = useSearchParams();
-    const router = useRouter();
-
-    useEffect(() => {
-        const token = sessionStorage.getItem('accessToken');
-        if (token) {
-            setIsAuthenticated(true);
-        }
-    }, []);
-
-    if (isAuthenticated) {
-        alert('You are already logged in, please logout to log in as a different user');
-        window.location.href='/';
-        return null;
-    }
 
     const handleLoginSubmit = async (event) => {
         event.preventDefault();
@@ -47,8 +30,7 @@ export default function LoginPage() {
             if (response.ok) {
                 sessionStorage.setItem('accessToken', data.access_token);
                 alert('Login successful! Redirecting...');
-                const redirectUrl = searchParams.get('redirect') || '/';
-                router.push(redirectUrl);
+                window.location.href='/';
             } else {
                 setError(data.error || 'Invalid username or password');
             }

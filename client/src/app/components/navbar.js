@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import '../styles/navbar.css';
 import { useState, useEffect } from 'react';
+import { redirect } from 'next/navigation';
 
 export default function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -11,11 +12,11 @@ export default function Navbar() {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('user');
     setIsAuthenticated(false);
-    window.location.href = '/'
+    redirect('/')
   };
 
   const showProfile = () => {
-    window.location.href = '/login';
+    redirect('/profile');
   };
 
   useEffect(() => {
