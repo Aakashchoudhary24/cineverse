@@ -12,9 +12,8 @@ export default function TrackPage() {
         genre: '',
         summary: '',
     });
+    const token = sessionStorage.getItem('accessToken');
     const fetchTracks = async () => {
-        const token = sessionStorage.getItem('accessToken');
-    
         try {
             const response = await fetch('http://localhost:5000/api/track', {
                 method: 'GET',
@@ -39,7 +38,6 @@ export default function TrackPage() {
     };
 
     useEffect(() => {
-        const token = sessionStorage.getItem('accessToken');
         if (token) {
             fetchTracks();
         }
@@ -53,54 +51,50 @@ export default function TrackPage() {
     };
 
     const handleAddTrack = async (e) => {
-    e.preventDefault();
-    console.log('Sent track data:', formData);
-    const { movieName, genre, summary } = formData;
+        e.preventDefault();
+        console.log('Sent track data:', formData);
+        const { movieName, genre, summary } = formData;
     
-    if (!movieName || !summary) {
-        alert("Movie name and summary are required!");
-        return;
-    }
-    if (typeof movieName !== 'string' || typeof summary !== 'string') {
-        alert("Movie name and summary must be strings!");
-        return;
-    }
-
-    try {
-        const response = await fetch('http://localhost:5000/api/track', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({
-                movieName: movieName.trim(),
-                genre: genre ? genre.trim() : '', 
-                summary: summary.trim()
-            })
-        });
-
-        if (response.ok) {
-            alert('Track added successfully!');
-            setFormData({
-                movieName: '',
-                genre: '',
-                summary: '',
-            });
-            setShowAddTrackForm(false);
-            fetchTracks();
-        } else {
-            console.log('Error adding track:');
-            alert('Failed to add track');
+        if (!movieName || !summary) {
+            alert("Movie name and summary are required!");
+            return;
         }
-    } catch (error) {
-        console.log('Network or parsing error:', error);
-        alert('An error occurred while adding the track');
-    }
-};
-
+        if (typeof movieName !== 'string' || typeof summary !== 'string') {
+            alert("Movie name and summary must be strings!");
+            return;
+        }
+        try {
+            const response = await fetch('http://localhost:5000/api/track', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    movieName: movieName.trim(),
+                    genre: genre ? genre.trim() : '', 
+                    summary: summary.trim()
+                })
+            });
     
-    
+            if (response.ok) {
+                alert('Track added successfully!');
+                setFormData({
+                    movieName: '',
+                    genre: '',
+                    summary: '',
+                });
+                setShowAddTrackForm(false);
+                fetchTracks();
+            } else {
+                console.log('Error adding track:');
+                alert('Failed to add track');
+            }
+        } catch (error) {
+            console.log('Network or parsing error:', error);
+            alert('An error occurred while adding the track');
+        }
+    };
 
     return (
         <div className='main'>
@@ -148,7 +142,7 @@ export default function TrackPage() {
             )}
 
             <div className="track-list">
-                {tracks.length === 0 ? (
+                {!showAddTrackForm && tracks.length === 0 ? (
                     <p>No tracks found. Add a new track to get started!</p>
                 ) : (
                     tracks.map(track => (

@@ -74,6 +74,11 @@ export default function Navbar() {
                 <Link href='/register' onClick={closeMenu}>REGISTER</Link>
               </li>
             )}
+            {isAuthenticated && (
+              <li>
+                <Link href='/watchlist' onClick={closeMenu}>WATCHLIST</Link>
+              </li>
+            )}
             <li>
               <Link href='/track' onClick={closeMenu}>TRACK</Link>
             </li>

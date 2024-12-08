@@ -15,8 +15,8 @@ export default function ProfilePage() {
                 const response = await fetch('http://localhost:5000/api/profile', {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
                     }
                 });
                 const data = await response.json();
