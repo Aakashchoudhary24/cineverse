@@ -7,16 +7,27 @@ import { redirect } from 'next/navigation';
 
 export default function Navbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
     sessionStorage.removeItem('accessToken');
     sessionStorage.removeItem('user');
     setIsAuthenticated(false);
+    setIsMenuOpen(false);
     redirect('/')
   };
 
   const showProfile = () => {
+    setIsMenuOpen(false);
     redirect('/profile');
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
 
   useEffect(() => {
@@ -33,38 +44,47 @@ export default function Navbar() {
           <span>CineVerse</span>
         </div>
 
-        <div className='links'>
+        {/* Hamburger Menu Button */}
+        <div className='hamburger-menu' onClick={toggleMenu}>
+          <div className={`hamburger-icon ${isMenuOpen ? 'open' : ''}`}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div className={`links ${isMenuOpen ? 'active' : ''}`}>
           <ul>
             <li>
-              <Link href='/'>HOME</Link>
+              <Link href='/' onClick={closeMenu}>HOME</Link>
             </li>
             <li>
-              <Link href='/lists'>LISTS</Link>
+              <Link href='/lists' onClick={closeMenu}>LISTS</Link>
             </li>
             <li>
-              <Link href='/films'>FILMS</Link>
+              <Link href='/films' onClick={closeMenu}>FILMS</Link>
             </li>
             {!isAuthenticated && (
               <li>
-                <Link href='/login'>LOGIN</Link>
+                <Link href='/login' onClick={closeMenu}>LOGIN</Link>
               </li>
             )}
             {!isAuthenticated && (
               <li>
-                <Link href='/register'>REGISTER</Link>
+                <Link href='/register' onClick={closeMenu}>REGISTER</Link>
               </li>
             )}
             <li>
-              <Link href='/track'>TRACK</Link>
+              <Link href='/track' onClick={closeMenu}>TRACK</Link>
             </li>
             {isAuthenticated && (
               <li>
-                  <button className='nav-button' onClick={showProfile}>PROFILE</button>
+                <button className='nav-button' onClick={showProfile}>PROFILE</button>
               </li>
             )}
             {isAuthenticated && (
               <li>
-                  <button className='nav-button' onClick={handleLogout}>LOGOUT</button>
+                <button className='nav-button' onClick={handleLogout}>LOGOUT</button>
               </li>
             )}
           </ul>
