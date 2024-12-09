@@ -15,7 +15,7 @@
     padding: 1rem;
     top: 0;
     position: sticky;
-    z-index: 100;
+    z-index: -10;
     background: rgba(37, 35, 35, 0.4);
     border-radius: 10px;
     color: white;
@@ -32,6 +32,7 @@
     color: white;
     font-family: 'Faculty Glyphic';
     letter-spacing: 2px;
+    z-index: -100;
 }
 .movie-card {
     text-align: center;

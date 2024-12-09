@@ -129,10 +129,10 @@ def handle_tasks():
                 return jsonify({"error": "Database connection failed"}), 500
 
             with conn.cursor() as cursor:
-                cursor.execute("SELECT * FROM tasks WHERE user_id = %s ORDER BY created_at DESC", (user_id,))
+                cursor.execute("SELECT id, description, status, created_at FROM tasks WHERE user_id = %s ORDER BY created_at DESC", (user_id,))
                 tasks = cursor.fetchall()
-
-            return jsonify({"tasks": tasks}), 200
+                tasks_list = [{"id": task[0], "description": task[1], "status": task[2], "created_at": task[3]} for task in tasks]
+                return jsonify({"tasks": tasks_list}), 200
 
         except Exception as e:
             return jsonify({"error": "Failed to fetch tasks", "details": str(e)}), 500
@@ -152,13 +152,16 @@ def handle_tasks():
 
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "INSERT INTO tasks (user_id, description, status, created_at) VALUES (%s, %s, %s, NOW()) RETURNING *", 
+                    "INSERT INTO tasks (user_id, description, status, created_at) VALUES (%s, %s, %s, NOW()) RETURNING id, description, status, created_at", 
                     (user_id, description, status)
                 )
                 task = cursor.fetchone()
                 conn.commit()
 
-            return jsonify({"task": task}), 201
+            if not task:
+                return jsonify({"error": "Failed to create task"}), 500
+
+            return jsonify({"task": {"id": task[0], "description": task[1], "status": task[2], "created_at": task[3]}}), 201
 
         except Exception as e:
             return jsonify({"error": "Failed to create task", "details": str(e)}), 500
@@ -182,7 +185,7 @@ def modify_task(task_id):
 
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "UPDATE tasks SET status = %s WHERE id = %s AND user_id = %s RETURNING *", 
+                    "UPDATE tasks SET status = %s WHERE id = %s AND user_id = %s RETURNING id, description, status, created_at", 
                     (status, task_id, user_id)
                 )
                 updated_task = cursor.fetchone()
@@ -191,7 +194,7 @@ def modify_task(task_id):
                 if not updated_task:
                     return jsonify({"error": "Task not found or unauthorized"}), 404
 
-            return jsonify({"message": "Task updated successfully"}), 200
+            return jsonify({"task": {"id": updated_task[0], "description": updated_task[1], "status": updated_task[2], "created_at": updated_task[3]}}), 200
 
         except Exception as e:
             return jsonify({"error": "Failed to update task", "details": str(e)}), 500
@@ -204,7 +207,7 @@ def modify_task(task_id):
 
             with conn.cursor() as cursor:
                 cursor.execute(
-                    "DELETE FROM tasks WHERE id = %s AND user_id = %s RETURNING *", 
+                    "DELETE FROM tasks WHERE id = %s AND user_id = %s RETURNING id, description, status, created_at", 
                     (task_id, user_id)
                 )
                 deleted_task = cursor.fetchone()
