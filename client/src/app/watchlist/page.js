@@ -12,7 +12,7 @@ export default function WatchList() {
     const [token, setToken] = useState('');
 
     useEffect(() => {
-        const storedToken = sessionStorage.getItem('accessToken');
+        const storedToken = sessionStorage.getItem('access_token');
         if (storedToken) {
             setToken(storedToken);
         } else {

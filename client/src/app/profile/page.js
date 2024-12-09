@@ -16,7 +16,7 @@ export default function ProfilePage() {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const token = sessionStorage.getItem('access_token')
+                const token = sessionStorage.getItem('access_token');
                 if (!token) {
                     console.log('No token found');
                     return;
