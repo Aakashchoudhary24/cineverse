@@ -106,7 +106,7 @@ def profile():
         if conn is None:
             return jsonify({"error": "Database connection failed"}), 500
 
-        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
+        with conn.cursor() as cursor:
             cursor.execute("SELECT username FROM users WHERE id = %s;", (user_id,))
             user = cursor.fetchone()
 
