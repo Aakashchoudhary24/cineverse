@@ -96,7 +96,7 @@ def login():
     except Exception as e:
         return jsonify({"error": "Login failed", "details": str(e)}), 500
 
-@app.route('/api/profile', methods=['GET'])
+@app.route('/api/profile', methods=['GET']) 
 @jwt_required()
 def profile():
     try:
@@ -106,14 +106,14 @@ def profile():
         if conn is None:
             return jsonify({"error": "Database connection failed"}), 500
 
-        with conn.cursor() as cursor:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cursor:
             cursor.execute("SELECT username FROM users WHERE id = %s;", (user_id,))
             user = cursor.fetchone()
 
         if not user:
             return jsonify({"error": "User not found"}), 404
 
-        return jsonify({"user": {"username": user[0]}}), 200
+        return jsonify({"user": {"username": user}}), 200
     except Exception as e:
         return jsonify({"error": "Failed to fetch profile", "details": str(e)}), 500
 
