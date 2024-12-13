@@ -26,7 +26,6 @@ export default function TrackPage() {
             const data = await response.json();
             console.log('Full Response:', response);
             console.log('Response Data:', data);
-    
             if (response.ok) {
                 setTracks(data.tracks);
             } else {
